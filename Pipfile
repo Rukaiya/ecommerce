@@ -8,6 +8,7 @@ django = "*"
 python-decouple = "*"
 pillow = "*"
 coverage = "*"
+flake8 = "*"
 
 [dev-packages]
 
