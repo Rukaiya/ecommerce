@@ -9,7 +9,7 @@ SECRET_KEY = config('SECRET_KEY')
 
 DEBUG = config('DEBUG')
 
-ALLOWED_HOSTS = ['abcd.com']
+ALLOWED_HOSTS = ['abcd.com', '127.0.0.1']
 
 INSTALLED_APPS = [
     'django.contrib.admin',
@@ -20,8 +20,8 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
 
     # local apps
-    'store'
-    'basket'
+    'store',
+    'basket',
 ]
 
 MIDDLEWARE = [
@@ -48,6 +48,8 @@ TEMPLATES = [
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
                 'store.context_processors.categories',
+                'basket.context_processors.basket',
+
             ],
         },
     },
