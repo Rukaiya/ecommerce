@@ -36,10 +36,10 @@ Summary{%endblock %} {% block content %}
                 <label for="select">Qty</label>
                 <select id="select{{product.id}}">
                   <option selected>{{item.quantity}}</option>
-                  <option value="">1</option>
-                  <option value="">2</option>
-                  <option value="">3</option>
-                  <option value="">4</option>
+                  <option value="1">1</option>
+                  <option value="2">2</option>
+                  <option value="3">3</option>
+                  <option value="4">4</option>
                 </select>
                 <button
                   type="button"
@@ -75,8 +75,10 @@ Summary{%endblock %} {% block content %}
   </div>
 </main>
 <script>
+  // delete item
   $(document).on('click', '.delete-button', function(e){
       e.preventDefault();
+      var prodid = $(this).data('index');
       $.ajax({
           type: 'POST',
           url: '{% url "basket:basket_delete" %}',
@@ -86,9 +88,33 @@ Summary{%endblock %} {% block content %}
               action: 'post'
           },
           success: function (json) {
+            $('.product-item[data-index="'+ prodid +'"]').remove()
+            document.getElementById("basket-qty").innerHTML = json.quantity
+            document.getElementById("subtotal").innerHTML = json.subtotal
           },
           error: function (xhr, erro_message, error) {}
       });
   })
+
+  // update item
+  $(document).on('click', '.update-button', function(e){
+    e.preventDefault();
+    var prodid = $(this).data('index');
+    $.ajax({
+        type: 'POST',
+        url: '{% url "basket:basket_update" %}',
+        data: {
+            productid: $(this).data('index'),
+            productqty: $('#select' + prodid + ' option:selected').text(),
+            csrfmiddlewaretoken: "{{csrf_token}}",
+            action: 'post'
+        },
+        success: function (json) {
+          document.getElementById("basket-qty").innerHTML = json.quantity
+          document.getElementById("subtotal").innerHTML = json.subtotal
+        },
+        error: function (xhr, erro_message, error) {}
+    });
+})
 </script>
 {% endblock %}
