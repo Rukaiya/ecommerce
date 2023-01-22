@@ -18,7 +18,7 @@ def basket_add(request):
         product = get_object_or_404(Product, id=product_id)
         basket.add(product=product, quantity=product_qty)
         basket_qty = basket.__len__()
-        response = JsonResponse({'qty': basket_qty})
+        response = JsonResponse({'quantity': basket_qty})
         return response
 
 def basket_delete(request):
